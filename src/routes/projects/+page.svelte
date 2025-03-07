@@ -6,7 +6,7 @@
 <svelte:head>
   <title>Projects</title>
 </svelte:head>
-<h1>{projects.length}Projects</h1>
+<h1>{projects.length} Projects</h1>
 <div class="projects">
   {#each projects as p}
     <Project data={p} />
