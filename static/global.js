@@ -16,58 +16,58 @@ if (currentLink) {
 */
 
 // STEP 3
-// step 3.1
-let pages = [
-  { url: ".", title: "Home" },
-  { url: "projects", title: "Projects" },
-  { url: "contact", title: "Contact" },
-  { url: "cv", title: "CV" },
-  { url: "https://github.com/hap196", title: "GitHub" },
-];
+// // step 3.1
+// let pages = [
+//   { url: ".", title: "Home" },
+//   { url: "projects", title: "Projects" },
+//   { url: "contact", title: "Contact" },
+//   { url: "cv", title: "CV" },
+//   { url: "https://github.com/hap196", title: "GitHub" },
+// ];
 
-let nav = document.createElement("nav");
-document.body.prepend(nav);
+// let nav = document.createElement("nav");
+// document.body.prepend(nav);
 
-// step 3.2
-for (let p of pages) {
-  let url = p.url;
-  let title = p.title;
+// // step 3.2
+// for (let p of pages) {
+//   let url = p.url;
+//   let title = p.title;
 
-  // Create and configure link
-  let a = document.createElement("a");
-  a.href = url;
-  a.textContent = title;
+//   // Create and configure link
+//   let a = document.createElement("a");
+//   a.href = url;
+//   a.textContent = title;
 
-  // Add current class if this is the current page
-  if (a.host === location.host && a.pathname === location.pathname) {
-    a.classList.add("current");
-  }
+//   // Add current class if this is the current page
+//   if (a.host === location.host && a.pathname === location.pathname) {
+//     a.classList.add("current");
+//   }
 
-  // Add target="_blank" for external links
-  if (a.host !== location.host) {
-    a.target = "_blank";
-  }
+//   // Add target="_blank" for external links
+//   if (a.host !== location.host) {
+//     a.target = "_blank";
+//   }
 
-  nav.append(a);
-}
+//   nav.append(a);
+// }
 
 // STEP 4
 // step 4.1
 // TODO: Inside your styles.css file, adjust your navigation menu colors! There is nothing to do in this file in this step.
 
 // step 4.2
-document.body.insertAdjacentHTML(
-  "afterbegin",
-  `
-	<label class="color-scheme">
-		Theme:
-		<select>
-			<option value="light dark">Auto</option>
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-		</select>
-	</label>`
-);
+// document.body.insertAdjacentHTML(
+//   "afterbegin",
+//   `
+// 	<label class="color-scheme">
+// 		Theme:
+// 		<select>
+// 			<option value="light dark">Auto</option>
+//             <option value="dark">Dark</option>
+//             <option value="light">Light</option>
+// 		</select>
+// 	</label>`
+// );
 
 // step 4.3
 // TODO: Inside your styles.css file, add styling to move the switcher with class .color-scheme to the top right corner. There is nothing to do in this file in this step
