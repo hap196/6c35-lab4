@@ -1,62 +1,74 @@
 [
-	{
-		"title": "test",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam dolor quos, quod assumenda explicabo odio, nobis ipsa laudantium quas eum veritatis ullam sint porro minima modi molestias doloribus cumque odit."
-	},
-	{
-		"title": "Architecto minima sed omnis?",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Est, reiciendis aspernatur debitis maxime et itaque animi sit quod quo, tempore incidunt tempora dignissimos exercitationem enim numquam quam quaerat optio laborum ut unde hic delectus laboriosam? Quasi, cupiditate corporis."
-	},
-	{
-		"title": "Asperiores rem repellendus doloremque.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Eligendi tenetur quae quos recusandae est. Cumque, voluptatem. Quo nihil dignissimos molestiae explicabo praesentium aspernatur debitis, illo rerum possimus quam ducimus earum nulla officiis maiores itaque repellat corporis soluta labore?"
-	},
-	{
-		"title": "Laudantium reprehenderit placeat perspiciatis.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Quo minus perferendis nulla corrupti repellat dolorem dolore assumenda sit minima ducimus quidem ullam, id ipsa dicta tempora laborum officiis unde possimus cumque nobis alias inventore! Ullam repudiandae iusto nam."
-	},
-	{
-		"title": "Consequuntur autem eos facere.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Laborum alias ea unde harum aspernatur? Molestiae, veritatis, possimus, numquam ex excepturi quod ducimus sit odit optio quibusdam sequi aliquid itaque tempore perspiciatis placeat expedita vero voluptates. Sit, aspernatur sint!"
-	},
-	{
-		"title": "Quos sint quaerat omnis?",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Est neque, velit nam rerum error odio voluptates voluptatem magnam laboriosam ad? Doloribus, id et itaque unde porro totam ullam quaerat blanditiis odit animi eveniet aut, voluptate velit iure odio."
-	},
-	{
-		"title": "Iste ipsam magni fuga!",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Velit omnis suscipit nemo quia? Iste maiores numquam labore quia nemo eveniet odit, modi magnam? Architecto officia sint est. Architecto iste minima consequuntur explicabo illo error sed at dolore nostrum!"
-	},
-	{
-		"title": "Ipsum, aperiam magni? Nobis.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Delectus magni, vel, quod mollitia hic rem temporibus, sint doloribus tenetur qui dolores tempore quisquam fuga nobis recusandae molestiae ipsum nostrum maxime eaque dicta aperiam eum quas beatae. At, neque."
-	},
-	{
-		"title": "Dicta nihil odit illo?",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Vitae quos laudantium officiis rerum, accusamus delectus aspernatur quas nulla, magni sed, excepturi saepe incidunt laboriosam alias at aliquam atque quisquam autem nesciunt. Minus, reprehenderit odit nam illo natus aspernatur?"
-	},
-	{
-		"title": "Vel earum nulla facilis.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Aut voluptatem sint atque corrupti accusamus necessitatibus possimus et, itaque nulla id deleniti nemo repellendus asperiores molestias laudantium, mollitia ad dicta. Laboriosam, itaque. Quos corporis, perferendis natus officiis beatae qui."
-	},
-	{
-		"title": "Nobis iste neque quaerat.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Quos, recusandae, sit rerum velit nostrum nihil quisquam tempora repellat sed quibusdam facilis. Assumenda quaerat ab, nesciunt odio facere sit, ipsa necessitatibus tempora, maiores commodi sed quae provident deserunt at?"
-	},
-	{
-		"title": "Iusto, incidunt. Totam, illum.",
-		"image": "https://vis-society.github.io/labs/2/images/empty.svg",
-		"description": "Tempore, eveniet minus velit, earum aperiam necessitatibus repellendus provident accusamus illum officiis doloribus, eum saepe est aut numquam distinctio pariatur natus totam repellat. Numquam nulla libero sapiente magnam nostrum ex."
-	}
+  {
+    "title": "Persuasive or Deceptive Visualization",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Visualization of the proposition: Black and Hispanic officers face disproportionately higher substantiation rates when complaints are filed against them."
+  },
+  {
+    "title": "Visualization Critique & Redesign",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Redesigning a visualization of the COVID-19 pandemic."
+  },
+  {
+    "title": "Exploratory Data Analysis",
+    "year": "2025",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Exploring Transportation Oriented Development in the Boston Area"
+  },
+  {
+    "title": "Distributed Cloud Storage System",
+    "year": "2023",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Built a distributed file storage system that splits and encrypts files across multiple cloud providers. Implemented erasure coding techniques to ensure data integrity even if two storage nodes fail simultaneously, with automatic recovery mechanisms."
+  },
+  {
+    "title": "Augmented Reality Navigation App",
+    "year": "2023",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Created a mobile AR application that overlays navigation instructions on the real world using computer vision algorithms. The app recognizes landmarks to provide context-aware directions and works even in areas with poor GPS signal."
+  },
+  {
+    "title": "Algorithmic Trading Platform",
+    "year": "2022",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Designed and implemented a backtesting platform for algorithmic trading strategies. The system processes historical market data and evaluates multiple strategies simultaneously, generating comprehensive performance metrics and visualizations."
+  },
+  {
+    "title": "Computer Vision for Medical Imaging",
+    "year": "2021",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Developed a deep learning system that identifies potential abnormalities in X-ray images. The model achieves 88% sensitivity and 92% specificity, helping radiologists prioritize urgent cases and improve diagnostic accuracy."
+  },
+  {
+    "title": "Smart Home Energy Optimizer",
+    "year": "2021",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Created an IoT system that monitors and optimizes energy usage in homes. The platform uses machine learning to predict consumption patterns and automatically adjusts smart appliances to reduce electricity costs while maintaining comfort."
+  },
+  {
+    "title": "Secure Voting Blockchain Application",
+    "year": "2020",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Implemented a blockchain-based voting system that ensures vote integrity and anonymity. The application includes identity verification methods while maintaining vote secrecy, and provides transparent audit trails without compromising voter privacy."
+  },
+  {
+    "title": "Quantum Algorithm Simulator",
+    "year": "2020",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Developed a simulation platform for testing quantum computing algorithms without requiring quantum hardware. The simulator can model up to 25 qubits and implements common quantum gates, allowing researchers to experiment with quantum algorithms on classical computers."
+  },
+  {
+    "title": "Sustainable Urban Mobility Planner",
+    "year": "2019",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Created an application that optimizes urban commuting by suggesting routes that minimize carbon footprint. Integrates public transit data, bike-sharing availability, and walking paths to recommend eco-friendly travel options customized to user preferences and constraints."
+  },
+  {
+    "title": "Accessible Web Framework",
+    "year": "2019",
+    "image": "https://vis-society.github.io/labs/2/images/empty.svg",
+    "description": "Designed and built a front-end framework focused on accessibility from the ground up. Features include automatic ARIA attribute management, keyboard navigation patterns, and built-in screen reader testing tools. Meets WCAG 2.1 AAA compliance standards by default."
+  }
 ]

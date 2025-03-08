@@ -7,13 +7,20 @@
     { url: "./cv", title: "CV" },
     { url: "https://github.com/hap196", title: "GitHub" },
   ];
+  let root = globalThis?.document?.documentElement;
+  let localStorage = globalThis.localStorage ?? {};
+  let colorScheme = localStorage.colorScheme ?? "light dark";
+  $: root?.style.setProperty("color-scheme", colorScheme);
+  $: localStorage.colorScheme = colorScheme;
 </script>
 
 <nav>
   {#each pages as p}
     <a
       href={p.url}
-      class:current={"." + $page.route.id === p.url}
+      class:current={p.url === "./"
+        ? $page.url.pathname === "/"
+        : $page.url.pathname.endsWith(p.url.replace("./", "/"))}
       target={p.url.startsWith("http") ? "_blank" : null}
     >
       {p.title}
@@ -25,7 +32,7 @@
 
 <label class="color-scheme">
   Theme:
-  <select>
+  <select bind:value={colorScheme}>
     <option value="light dark">Auto</option>
     <option value="dark">Dark</option>
     <option value="light">Light</option>
@@ -89,6 +96,6 @@
   }
 
   label {
-  margin-block: 0.5rem;
-}
+    margin-block: 0.5rem;
+  }
 </style>
