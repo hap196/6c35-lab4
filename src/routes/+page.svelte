@@ -55,27 +55,21 @@
 </div>
 
 <style>
-  h1 {
-    font-size: 2rem;
-    color: #555;
-    margin-bottom: 1.5rem;
-  }
-
   section {
-    border: 1px solid #e1e4e8;
+    border: 1px solid color-mix(in srgb, currentColor, transparent 70%);
     border-radius: 6px;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
     margin-bottom: 2rem;
-    background-color: #f6f8fa;
+    background-color: color-mix(in srgb, currentColor, transparent 95%);
   }
 
   .github-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid #e1e4e8;
+    border-top: 1px solid color-mix(in srgb, currentColor, transparent 70%);
     padding-top: 1.5rem;
     margin-bottom: 2rem;
   }
@@ -83,7 +77,7 @@
   dt {
     grid-row: 1;
     font-size: 0.875rem;
-    color: #888;
+    color: color-mix(in srgb, currentColor, transparent 40%);
     margin-bottom: 0.5rem;
   }
 
@@ -92,6 +86,6 @@
     font-size: 2rem;
     font-weight: 300;
     margin: 0;
-    color: #333;
+    color: currentColor;
   }
 </style>
