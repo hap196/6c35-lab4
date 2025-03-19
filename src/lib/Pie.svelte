@@ -21,28 +21,33 @@
   let colors = d3.scaleOrdinal(d3.schemeTableau10);
 </script>
 
-<svg viewBox="-50 -50 100 100">
-  {#each arcs as arc, index}
-    <path d={arc} fill={colors(index)} />
-  {/each}
-</svg>
+<div class="container">
+  <svg viewBox="-50 -50 100 100">
+    {#each arcs as arc, index}
+      <path d={arc} fill={colors(index)} />
+    {/each}
+  </svg>
 
-<ul class="legend">
-	{#each data as d, index}
-		<li style="--color: { colors(index) }">
-			<span class="swatch"></span>
-			{d.label} <em>({d.value})</em>
-		</li>
-	{/each}
-</ul>
-
+  <ul class="legend">
+    {#each data as d, index}
+      <li style="--color: { colors(index) }">
+        <span class="swatch"></span>
+        {d.label} <em>({d.value})</em>
+      </li>
+    {/each}
+  </ul>
+</div>
 
 <style>
+  .container {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+  }
+
   svg {
     max-width: 20em;
     margin-block: 2em;
-
-    /* Do not clip shapes outside the viewBox */
     overflow: visible;
   }
 
@@ -54,6 +59,7 @@
     padding: 1em;
     border: 1px solid black;
     margin-top: 2em;
+    flex: 1;
   }
 
   .legend li {
