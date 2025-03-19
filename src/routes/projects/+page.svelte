@@ -4,12 +4,20 @@
   import Pie from '$lib/Pie.svelte';
   import * as d3 from "d3";
 
+  let query = "";  // Add search query variable
+
   // Group projects by year and count them
   let rolledData = d3.rollups(projects, v => v.length, d => d.year);
   
   // Transform the data into the format needed for the pie chart
   let pieData = rolledData.map(([year, count]) => {
     return { value: count, label: year };
+  });
+
+  // Add reactive filtering of projects with case-insensitive search across all metadata
+  $: filteredProjects = projects.filter(project => {
+    let values = Object.values(project).join("\n").toLowerCase();
+    return values.includes(query.toLowerCase());
   });
 </script>
 
@@ -19,9 +27,16 @@
 
 <h1>{projects.length} Projects</h1>
 
+<input 
+  type="search" 
+  bind:value={query}
+  aria-label="Search projects" 
+  placeholder="🔍 Search projects…" 
+/>
+
 <Pie data={pieData} />
 <div class="projects">
-  {#each projects as p}
+  {#each filteredProjects as p}
     <Project data={p} />
   {/each}
   <!-- <article>
@@ -132,3 +147,14 @@
     </p>
   </article> -->
 </div>
+
+<style>
+  input[type="search"] {
+    width: 100%;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+</style>
