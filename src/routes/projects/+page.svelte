@@ -5,12 +5,17 @@
   import * as d3 from "d3";
 
   let query = "";  // Add search query variable
+  let selectedYearIndex = -1;
 
   // Add reactive filtering of projects with case-insensitive search across all metadata
   $: filteredProjects = projects.filter(project => {
     let values = Object.values(project).join("\n").toLowerCase();
     return values.includes(query.toLowerCase());
   });
+
+  // Define selected year based on selectedYearIndex
+  let selectedYear;
+  $: selectedYear = selectedYearIndex > -1 ? pieData[selectedYearIndex].label : null;
 
   // Make pieData reactive based on filteredProjects
   let pieData;
@@ -20,6 +25,14 @@
       return { value: count, label: year };
     });
   }
+
+  // Filter projects by selected year
+  $: filteredByYear = filteredProjects.filter(project => {
+    if (selectedYear) {
+      return project.year === selectedYear;
+    }
+    return true;
+  });
 </script>
 
 <svelte:head>
@@ -35,9 +48,11 @@
   placeholder="🔍 Search projects…" 
 />
 
-<Pie data={pieData} />
+<p>Selected Year Index: {selectedYearIndex}, Selected Year: {selectedYear}</p>
+
+<Pie data={pieData} bind:selectedIndex={selectedYearIndex} />
 <div class="projects">
-  {#each filteredProjects as p}
+  {#each filteredByYear as p}
     <Project data={p} />
   {/each}
   <!-- <article>
