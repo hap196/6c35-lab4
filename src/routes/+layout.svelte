@@ -5,6 +5,7 @@
     { url: "./projects", title: "Projects" },
     { url: "./contact", title: "Contact" },
     { url: "./cv", title: "CV" },
+    { url: "./meta", title: "Meta" },
     { url: "https://github.com/hap196", title: "GitHub" },
   ];
   let root = globalThis?.document?.documentElement;
