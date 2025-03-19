@@ -2,6 +2,15 @@
   import projects from "$lib/projects.json";
   import Project from "$lib/Project.svelte";
   import Pie from '$lib/Pie.svelte';
+  import * as d3 from "d3";
+
+  // Group projects by year and count them
+  let rolledData = d3.rollups(projects, v => v.length, d => d.year);
+  
+  // Transform the data into the format needed for the pie chart
+  let pieData = rolledData.map(([year, count]) => {
+    return { value: count, label: year };
+  });
 </script>
 
 <svelte:head>
@@ -10,7 +19,7 @@
 
 <h1>{projects.length} Projects</h1>
 
-<Pie />
+<Pie data={pieData} />
 <div class="projects">
   {#each projects as p}
     <Project data={p} />
