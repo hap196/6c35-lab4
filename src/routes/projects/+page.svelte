@@ -48,7 +48,7 @@
   placeholder="🔍 Search projects…" 
 />
 
-<p>Selected Year Index: {selectedYearIndex}, Selected Year: {selectedYear}</p>
+<!-- <p>Selected Year Index: {selectedYearIndex}, Selected Year: {selectedYear}</p> -->
 
 <Pie data={pieData} bind:selectedIndex={selectedYearIndex} />
 <div class="projects">
