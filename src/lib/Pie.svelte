@@ -51,6 +51,14 @@
     overflow: visible;
   }
 
+  path {
+    transition: 300ms;
+  }
+
+  svg:has(path:hover) path:not(:hover) {
+    opacity: 50%;
+  }
+
   /* Legend styling */
   .legend {
     display: grid;
