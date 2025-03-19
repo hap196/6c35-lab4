@@ -6,19 +6,20 @@
 
   let query = "";  // Add search query variable
 
-  // Group projects by year and count them
-  let rolledData = d3.rollups(projects, v => v.length, d => d.year);
-  
-  // Transform the data into the format needed for the pie chart
-  let pieData = rolledData.map(([year, count]) => {
-    return { value: count, label: year };
-  });
-
   // Add reactive filtering of projects with case-insensitive search across all metadata
   $: filteredProjects = projects.filter(project => {
     let values = Object.values(project).join("\n").toLowerCase();
     return values.includes(query.toLowerCase());
   });
+
+  // Make pieData reactive based on filteredProjects
+  let pieData;
+  $: {
+    let rolledData = d3.rollups(filteredProjects, v => v.length, d => d.year);
+    pieData = rolledData.map(([year, count]) => {
+      return { value: count, label: year };
+    });
+  }
 </script>
 
 <svelte:head>

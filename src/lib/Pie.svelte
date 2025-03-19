@@ -10,13 +10,20 @@
   export let data = [];
 
   let sliceGenerator = d3.pie().value((d) => d.value);
-  let arcData = sliceGenerator(data);
-  let arcs = arcData.map((d) => arcGenerator(d));
   let colors = d3.scaleOrdinal(d3.schemeTableau10);
+
+  // Make arcData and arcs reactive
+  let arcData;
+  let arcs;
+
+  $: {
+    arcData = sliceGenerator(data);
+    arcs = arcData.map((d) => arcGenerator(d));
+  }
 </script>
 
 <div class="container">
-  <svg viewBox="-50 -50 100 100">
+  <svg viewBox="-50 -50 100 100" style="width: 200px; height: 200px;">
     {#each arcs as arc, index}
       <path d={arc} fill={colors(index)} />
     {/each}
@@ -40,7 +47,6 @@
   }
 
   svg {
-    max-width: 20em;
     margin-block: 2em;
     overflow: visible;
   }
