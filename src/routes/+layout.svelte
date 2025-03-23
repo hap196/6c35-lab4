@@ -48,10 +48,10 @@
  "display: contents" removes default styling while keeping semantic structure 
  (you do not need to make any changes here for step 2.1, but please take note of it!)
 */
-  nav ul,
+  /* nav ul,
   nav li {
     display: contents;
-  }
+  } */
 
   /* Step 2.2: Apply Flexbox to the navigation */
   nav {
