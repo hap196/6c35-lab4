@@ -80,6 +80,7 @@
   }
 
   let hoveredIndex = -1;
+  let cursor = {x: 0, y: 0};
   $: hoveredCommit = commits[hoveredIndex] ?? hoveredCommit ?? {};
 
   onMount(async () => {
@@ -183,7 +184,10 @@
     <g class="dots">
       {#each commits as commit, index}
         <circle
-          on:mouseenter={evt => hoveredIndex = index}
+          on:mouseenter={evt => {
+            hoveredIndex = index;
+            cursor = {x: evt.x, y: evt.y};
+          }}
           on:mouseleave={evt => hoveredIndex = -1}
           cx={xScale(commit.datetime)}
           cy={yScale(commit.hourFrac)}
@@ -195,24 +199,22 @@
   </svg>
 </section>
 
-{#if hoveredIndex >= 0}
-  <div class="tooltip">
-    <dt>COMMIT</dt>
-    <dd><a href="{hoveredCommit.url}" target="_blank">{hoveredCommit.id?.substring(0, 7)}</a></dd>
-    
-    <dt>AUTHOR</dt>
-    <dd>{hoveredCommit.author}</dd>
-    
-    <dt>DATE</dt>
-    <dd>{hoveredCommit.datetime?.toLocaleDateString("en", {month: "long", day: "numeric", year: "numeric"})}</dd>
-    
-    <dt>TIME</dt>
-    <dd>{hoveredCommit.datetime?.toLocaleTimeString("en", {hour: "2-digit", minute: "2-digit"})}</dd>
-    
-    <dt>LINES</dt>
-    <dd>{hoveredCommit.totalLines}</dd>
-  </div>
-{/if}
+<div class="tooltip" hidden={hoveredIndex === -1} style="top: {cursor.y}px; left: {cursor.x}px">
+  <dt>COMMIT</dt>
+  <dd><a href="{hoveredCommit.url}" target="_blank">{hoveredCommit.id?.substring(0, 7)}</a></dd>
+  
+  <dt>AUTHOR</dt>
+  <dd>{hoveredCommit.author}</dd>
+  
+  <dt>DATE</dt>
+  <dd>{hoveredCommit.datetime?.toLocaleDateString("en", {month: "long", day: "numeric", year: "numeric"})}</dd>
+  
+  <dt>TIME</dt>
+  <dd>{hoveredCommit.datetime?.toLocaleTimeString("en", {hour: "2-digit", minute: "2-digit"})}</dd>
+  
+  <dt>LINES</dt>
+  <dd>{hoveredCommit.totalLines}</dd>
+</div>
 
 <!-- <section class="commits">
   <h2>Commit History</h2>
@@ -264,16 +266,6 @@
     stroke-opacity: .2;
   }
   
-  .x-axis path, .y-axis path,
-  .x-axis line, .y-axis line {
-    stroke: #888;
-  }
-  
-  .x-axis text, .y-axis text {
-    font-size: 10px;
-    fill: #555;
-  }
-  
   .x-label, .y-label {
     font-size: 12px;
     fill: #333;
@@ -291,10 +283,10 @@
     position: fixed;
     top: 1em;
     left: 1em;
-    background: white;
+    background: oklch(100% 0% 0 / 90%);
     padding: 1.5em;
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.15);
     z-index: 100;
     max-width: 300px;
     min-width: 200px;
@@ -303,6 +295,15 @@
     gap: 0.75em 1em;
     color: black;
     font-family: system-ui, sans-serif;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition-duration: 500ms;
+    transition-property: opacity, visibility;
+  }
+  
+  .tooltip[hidden]:not(:hover, :focus-within) {
+    opacity: 0;
+    visibility: hidden;
   }
   
   .tooltip dt {
