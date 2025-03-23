@@ -6,6 +6,7 @@
     autoPlacement,
     offset,
   } from '@floating-ui/dom';
+  import Bar from '$lib/Bar.svelte';
 
   let width = 1000, height = 600;
   // Define margins
@@ -23,6 +24,7 @@
   
   let data = [];
   let commits = [];
+  let clickedCommits = [];
   
   // Elements for binding
   let xAxis;
@@ -68,6 +70,16 @@
   $: rScale = d3.scaleSqrt()
                 .domain(minMaxLines)
                 .range([2, 30]);
+  
+  // Prepare data for Bar chart
+  $: allTypes = Array.from(new Set(data.map(d => d.type)));
+  $: selectedLines = (clickedCommits.length > 0 ? clickedCommits : commits).flatMap(d => d.lines);
+  $: selectedCounts = d3.rollup(
+    selectedLines,
+    v => v.length,
+    d => d.type
+  );
+  $: languageBreakdown = allTypes.map(type => [type, selectedCounts.get(type) || 0]);
                 
   // Create and update axes reactively
   $: {
@@ -109,6 +121,18 @@
     }
     else if (evt.type === "mouseleave") {
       hoveredIndex = -1;
+    }
+    else if (evt.type === "click") {
+      let commit = commits[index];
+      if (!clickedCommits.includes(commit)) {
+        // Add the commit to the clickedCommits array
+        clickedCommits = [...clickedCommits, commit];
+      }
+      else {
+        // Remove the commit from the array
+        clickedCommits = clickedCommits.filter(c => c !== commit);
+      }
+      console.log(clickedCommits);
     }
   }
 
@@ -216,8 +240,14 @@
     <g class="dots">
       {#each commits as commit, index}
         <circle
+          class:selected={clickedCommits.includes(commit)}
           on:mouseenter={evt => dotInteraction(index, evt)}
           on:mouseleave={evt => dotInteraction(index, evt)}
+          on:click={evt => dotInteraction(index, evt)}
+          on:keydown={evt => evt.key === 'Enter' && dotInteraction(index, {...evt, type: "click"})}
+          tabindex="0"
+          role="button"
+          aria-label={`Commit ${commit.id.substring(0, 7)} by ${commit.author} with ${commit.totalLines} lines on ${commit.date}`}
           cx={xScale(commit.datetime)}
           cy={yScale(commit.hourFrac)}
           r={rScale(commit.totalLines)}
@@ -228,6 +258,8 @@
     </g>
   </svg>
 </section>
+
+<Bar data={languageBreakdown} width={width} />
 
 <div class="tooltip" bind:this={commitTooltip} hidden={hoveredIndex === -1} style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px">
   <dt>COMMIT</dt>
@@ -369,22 +401,7 @@
     text-decoration: underline;
   }
 
-  .commits {
-    font-family: monospace;
-    white-space: pre;
-    overflow-x: auto;
-    padding: 1em;
-    background-color: #f5f5f5;
-    border-radius: 4px;
-  }
-
-  .commit {
-    margin-bottom: 8px;
-    line-height: 1.5;
-  }
-
-  .index {
-    font-weight: bold;
-    margin-right: 8px;
+  .selected {
+    fill: var(--color-accent);
   }
 </style>
