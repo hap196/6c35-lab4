@@ -62,6 +62,12 @@
   $: yScale = d3.scaleLinear()
                 .domain([24, 0])
                 .range([usableArea.bottom, usableArea.top]);
+  
+  // Scale for radius based on number of lines edited
+  $: minMaxLines = commits.length ? d3.extent(commits, d => d.totalLines) : [0, 0];
+  $: rScale = d3.scaleSqrt()
+                .domain(minMaxLines)
+                .range([2, 30]);
                 
   // Create and update axes reactively
   $: {
@@ -140,6 +146,9 @@
 
         return ret;
       });
+      
+    // Sort commits by total lines in descending order
+    commits = d3.sort(commits, d => -d.totalLines);
 
     console.log(commits);
   });
@@ -211,7 +220,8 @@
           on:mouseleave={evt => dotInteraction(index, evt)}
           cx={xScale(commit.datetime)}
           cy={yScale(commit.hourFrac)}
-          r="5"
+          r={rScale(commit.totalLines)}
+          fill-opacity={hoveredIndex === index ? 1 : 0.6}
           fill="steelblue"
         />
       {/each}
