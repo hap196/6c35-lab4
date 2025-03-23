@@ -1,6 +1,11 @@
 <script>
   import * as d3 from "d3";
   import { onMount } from "svelte";
+  import {
+    computePosition,
+    autoPlacement,
+    offset,
+  } from '@floating-ui/dom';
 
   let width = 1000, height = 600;
   // Define margins
@@ -23,6 +28,7 @@
   let xAxis;
   let yAxis;
   let yAxisGridlines;
+  let commitTooltip;
   
   // Calculate statistics reactively
   $: totalLOC = data.length;
@@ -80,8 +86,25 @@
   }
 
   let hoveredIndex = -1;
-  let cursor = {x: 0, y: 0};
+  let tooltipPosition = {x: 0, y: 0};
   $: hoveredCommit = commits[hoveredIndex] ?? hoveredCommit ?? {};
+  
+  async function dotInteraction(index, evt) {
+    let hoveredDot = evt.target;
+    if (evt.type === "mouseenter") {
+      hoveredIndex = index;
+      tooltipPosition = await computePosition(hoveredDot, commitTooltip, {
+        strategy: "fixed", // because we use position: fixed
+        middleware: [
+          offset(5), // spacing from tooltip to dot
+          autoPlacement() // see https://floating-ui.com/docs/autoplacement
+        ],
+      });
+    }
+    else if (evt.type === "mouseleave") {
+      hoveredIndex = -1;
+    }
+  }
 
   onMount(async () => {
     data = await d3.csv("/loc.csv");
@@ -184,11 +207,8 @@
     <g class="dots">
       {#each commits as commit, index}
         <circle
-          on:mouseenter={evt => {
-            hoveredIndex = index;
-            cursor = {x: evt.x, y: evt.y};
-          }}
-          on:mouseleave={evt => hoveredIndex = -1}
+          on:mouseenter={evt => dotInteraction(index, evt)}
+          on:mouseleave={evt => dotInteraction(index, evt)}
           cx={xScale(commit.datetime)}
           cy={yScale(commit.hourFrac)}
           r="5"
@@ -199,7 +219,7 @@
   </svg>
 </section>
 
-<div class="tooltip" hidden={hoveredIndex === -1} style="top: {cursor.y}px; left: {cursor.x}px">
+<div class="tooltip" bind:this={commitTooltip} hidden={hoveredIndex === -1} style="top: {tooltipPosition.y}px; left: {tooltipPosition.x}px">
   <dt>COMMIT</dt>
   <dd><a href="{hoveredCommit.url}" target="_blank">{hoveredCommit.id?.substring(0, 7)}</a></dd>
   
