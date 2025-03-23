@@ -79,6 +79,9 @@
     }
   }
 
+  let hoveredIndex = -1;
+  $: hoveredCommit = commits[hoveredIndex] ?? hoveredCommit ?? {};
+
   onMount(async () => {
     data = await d3.csv("/loc.csv");
     commits = d3
@@ -180,6 +183,8 @@
     <g class="dots">
       {#each commits as commit, index}
         <circle
+          on:mouseenter={evt => hoveredIndex = index}
+          on:mouseleave={evt => hoveredIndex = -1}
           cx={xScale(commit.datetime)}
           cy={yScale(commit.hourFrac)}
           r="5"
@@ -189,6 +194,25 @@
     </g>
   </svg>
 </section>
+
+{#if hoveredIndex >= 0}
+  <div class="tooltip">
+    <dt>COMMIT</dt>
+    <dd><a href="{hoveredCommit.url}" target="_blank">{hoveredCommit.id?.substring(0, 7)}</a></dd>
+    
+    <dt>AUTHOR</dt>
+    <dd>{hoveredCommit.author}</dd>
+    
+    <dt>DATE</dt>
+    <dd>{hoveredCommit.datetime?.toLocaleDateString("en", {month: "long", day: "numeric", year: "numeric"})}</dd>
+    
+    <dt>TIME</dt>
+    <dd>{hoveredCommit.datetime?.toLocaleTimeString("en", {hour: "2-digit", minute: "2-digit"})}</dd>
+    
+    <dt>LINES</dt>
+    <dd>{hoveredCommit.totalLines}</dd>
+  </div>
+{/if}
 
 <!-- <section class="commits">
   <h2>Commit History</h2>
@@ -259,6 +283,59 @@
   .visualization {
     margin-top: 2rem;
     margin-bottom: 2rem;
+    position: relative;
+  }
+  
+  /* Complete rewrite of tooltip styles to avoid conflicts */
+  .tooltip {
+    position: fixed;
+    top: 1em;
+    left: 1em;
+    background: white;
+    padding: 1.5em;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    max-width: 300px;
+    min-width: 200px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75em 1em;
+    color: black;
+    font-family: system-ui, sans-serif;
+  }
+  
+  .tooltip dt {
+    grid-column: 1;
+    display: block;
+    text-align: right;
+    color: #555;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin: 0;
+    line-height: 1.5;
+    grid-row: auto;
+  }
+  
+  .tooltip dd {
+    grid-column: 2;
+    display: block;
+    font-size: 0.9rem;
+    font-weight: normal;
+    margin: 0;
+    line-height: 1.5;
+    word-break: break-word;
+    grid-row: auto;
+    color: #333;
+  }
+  
+  .tooltip a {
+    color: steelblue;
+    text-decoration: none;
+  }
+  
+  .tooltip a:hover {
+    text-decoration: underline;
   }
 
   .commits {
