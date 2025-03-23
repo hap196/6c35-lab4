@@ -4,6 +4,20 @@
 
   let data = [];
   let commits = [];
+  
+  // Calculate statistics reactively
+  $: totalLOC = data.length;
+  $: commitCount = commits.length;
+  
+  // Calculate number of unique files
+  $: files = d3.groups(data, d => d.file).length;
+  
+  // Calculate maximum depth
+  $: maxDepth = d3.max(data, d => +d.depth) || 0;
+  
+  // Calculate maximum file length (lines per file)
+  $: fileLengths = d3.rollups(data, v => v.length, d => d.file);
+  $: maxLines = d3.max(fileLengths, d => d[1]) || 0;
 
   onMount(async () => {
     data = await d3.csv("/loc.csv");
@@ -50,10 +64,27 @@
 
 <h1>Meta</h1>
 
-<p>This is the meta page.</p>
-<p>Total lines of code: {data.length}</p>
+<section class="summary">
+  <h2>Summary</h2>
+  <dl class="stats">
+    <dt>COMMITS</dt>
+    <dd>{commitCount}</dd>
+    
+    <dt>FILES</dt>
+    <dd>{files}</dd>
+    
+    <dt>TOTAL <abbr title="Lines of code">LOC</abbr></dt>
+    <dd>{totalLOC}</dd>
+    
+    <dt>MAX DEPTH</dt>
+    <dd>{maxDepth}</dd>
+    
+    <dt>MAX LINES</dt>
+    <dd>{maxLines}</dd>
+  </dl>
+</section>
 
-<section class="commits">
+<!-- <section class="commits">
   <h2>Commit History</h2>
   {#each commits as commit, i}
     <div class="commit">
@@ -61,9 +92,36 @@
       {JSON.stringify(commit, null, 2)}
     </div>
   {/each}
-</section>
+</section> -->
 
 <style>
+  .summary {
+    margin-bottom: 2rem;
+  }
+  
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid color-mix(in srgb, currentColor, transparent 70%);
+    padding-top: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  dt {
+    grid-row: 1;
+    font-size: 0.875rem;
+    color: color-mix(in srgb, currentColor, transparent 40%);
+    margin-bottom: 0.5rem;
+  }
+
+  dd {
+    grid-row: 2;
+    font-size: 2rem;
+    font-weight: 300;
+    margin: 0;
+    color: currentColor;
+  }
+
   .commits {
     font-family: monospace;
     white-space: pre;
