@@ -2,8 +2,27 @@
   import * as d3 from "d3";
   import { onMount } from "svelte";
 
+  let width = 1000, height = 600;
+  // Define margins
+  let margin = {top: 10, right: 10, bottom: 30, left: 50};
+  
+  // Define usable area
+  let usableArea = {
+    top: margin.top,
+    right: width - margin.right,
+    bottom: height - margin.bottom,
+    left: margin.left
+  };
+  usableArea.width = usableArea.right - usableArea.left;
+  usableArea.height = usableArea.bottom - usableArea.top;
+  
   let data = [];
   let commits = [];
+  
+  // Elements for binding
+  let xAxis;
+  let yAxis;
+  let yAxisGridlines;
   
   // Calculate statistics reactively
   $: totalLOC = data.length;
@@ -18,6 +37,47 @@
   // Calculate maximum file length (lines per file)
   $: fileLengths = d3.rollups(data, v => v.length, d => d.file);
   $: maxLines = d3.max(fileLengths, d => d[1]) || 0;
+
+  // Create scales for the scatterplot
+  $: minDate = commits.length ? d3.min(commits, d => d.datetime) : new Date();
+  $: maxDate = commits.length ? d3.max(commits, d => d.datetime) : new Date();
+  $: maxDatePlusOne = new Date(maxDate);
+  $: {
+    if (maxDatePlusOne instanceof Date && !isNaN(maxDatePlusOne)) {
+      maxDatePlusOne.setDate(maxDatePlusOne.getDate() + 1);
+    }
+  }
+
+  $: xScale = d3.scaleTime()
+                .domain([minDate, maxDatePlusOne])
+                .range([usableArea.left, usableArea.right])
+                .nice();
+
+  $: yScale = d3.scaleLinear()
+                .domain([24, 0])
+                .range([usableArea.bottom, usableArea.top]);
+                
+  // Create and update axes reactively
+  $: {
+    if (yAxisGridlines) {
+      d3.select(yAxisGridlines).call(
+        d3.axisLeft(yScale)
+          .tickFormat("")
+          .tickSize(-usableArea.width)
+      );
+    }
+    
+    if (xAxis) {
+      d3.select(xAxis).call(d3.axisBottom(xScale));
+    }
+    
+    if (yAxis) {
+      d3.select(yAxis).call(
+        d3.axisLeft(yScale)
+          .tickFormat(d => String(d % 24).padStart(2, "0") + ":00")
+      );
+    }
+  }
 
   onMount(async () => {
     data = await d3.csv("/loc.csv");
@@ -84,6 +144,52 @@
   </dl>
 </section>
 
+<section class="visualization">
+  <h2>Commits by time of day</h2>
+  <svg viewBox="0 0 {width} {height}">
+    <!-- Grid lines -->
+    <g class="gridlines" transform="translate({usableArea.left}, 0)" bind:this={yAxisGridlines} />
+    
+    <!-- X-axis at the bottom -->
+    <g transform="translate(0, {usableArea.bottom})" bind:this={xAxis} />
+    
+    <!-- Y-axis on the left -->
+    <g transform="translate({usableArea.left}, 0)" bind:this={yAxis} />
+    
+    <!-- Add axis labels -->
+    <text 
+      class="x-label" 
+      x={width / 2} 
+      y={height - 5} 
+      text-anchor="middle"
+    >
+      Date
+    </text>
+    
+    <text 
+      class="y-label" 
+      transform="rotate(-90)" 
+      x={-height / 2} 
+      y={15} 
+      text-anchor="middle"
+    >
+      Time of Day
+    </text>
+    
+    <!-- Data points -->
+    <g class="dots">
+      {#each commits as commit, index}
+        <circle
+          cx={xScale(commit.datetime)}
+          cy={yScale(commit.hourFrac)}
+          r="5"
+          fill="steelblue"
+        />
+      {/each}
+    </g>
+  </svg>
+</section>
+
 <!-- <section class="commits">
   <h2>Commit History</h2>
   {#each commits as commit, i}
@@ -120,6 +226,39 @@
     font-weight: 300;
     margin: 0;
     color: currentColor;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  .gridlines {
+    stroke-opacity: .2;
+  }
+  
+  .x-axis path, .y-axis path,
+  .x-axis line, .y-axis line {
+    stroke: #888;
+  }
+  
+  .x-axis text, .y-axis text {
+    font-size: 10px;
+    fill: #555;
+  }
+  
+  .x-label, .y-label {
+    font-size: 12px;
+    fill: #333;
+    font-weight: bold;
+  }
+
+  .visualization {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
   }
 
   .commits {
