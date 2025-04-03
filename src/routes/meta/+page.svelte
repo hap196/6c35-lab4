@@ -322,16 +322,30 @@
     overflow: visible;
     border: 1px solid #ccc;
     background-color: #f9f9f9;
+    color: #333;
   }
   
   .gridlines {
     stroke-opacity: .2;
+    stroke: #333;
+  }
+  
+  .gridlines line {
+    stroke: #333;
   }
   
   .x-label, .y-label {
     font-size: 12px;
     fill: #333;
     font-weight: bold;
+  }
+
+  svg text {
+    fill: #333;
+  }
+
+  svg line, svg path {
+    stroke: #333;
   }
 
   .visualization {

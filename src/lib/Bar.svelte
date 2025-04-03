@@ -53,7 +53,7 @@
 					x={xScale(d.count) > MIN_LABEL_WIDTH ? xScale(d.count) - 5 : xScale(d.count) + 5}
 					y={i * barHeight + (barHeight - 5) / 2}
 					text-anchor={xScale(d.count) > MIN_LABEL_WIDTH ? "end" : "start"}
-					fill={xScale(d.count) > MIN_LABEL_WIDTH ? "white" : "black"}
+					fill={xScale(d.count) > MIN_LABEL_WIDTH ? "white" : "#000"}
 			>
 				{d.label}: {d.count}
 			</text>
@@ -84,19 +84,37 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		background-color: white;
+		color: #000;
+		border-radius: 5px;
+		padding: 1rem;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	}
+
+	svg {
+		background-color: white;
+		color: #000;
+	}
+
+	svg text {
+		fill: #000;
+	}
+
+	svg line, svg path {
+		stroke: #333;
 	}
 
 	/* ---------- Bars ---------- */
 	rect {
-		/*stroke: white;*/
 		transition: all 300ms ease;
 		cursor: pointer;
+		stroke: #444;
 	}
 
 	/* Hover effect */
 	rect.hovered {
 		opacity: 1;
-		/*stroke: black;*/
+		stroke: #000;
 		stroke-width: 2;
 	}
 
@@ -107,7 +125,7 @@
 
 	/* Selection effect */
 	rect.selected {
-		/*stroke: black;*/
+		stroke: #000;
 		stroke-width: 2;
 	}
 
@@ -118,7 +136,7 @@
 
 	/* Combined hover + select */
 	rect.selected.hovered {
-		/*stroke: black;*/
+		stroke: #000;
 		stroke-width: 3;
 		opacity: 1;
 	}
@@ -139,11 +157,12 @@
 		list-style: none;
 		padding: 1em;
 		margin: 1em 0;
-		border: 1px solid;
-		background: transparent;
+		border: 1px solid #444;
+		background: white;
 		width: 100%;
 		box-sizing: border-box;
 		text-align: left;
+		color: #000;
 	}
 
 	/* Legend items */
@@ -166,7 +185,7 @@
 
 	/* Dim unselected when one selected */
 	.legend:has(.selected) .legend-button:not(.selected) {
-		color: gray;
+		color: #666;
 		opacity: 0.5;
 	}
 
