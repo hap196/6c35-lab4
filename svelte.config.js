@@ -3,7 +3,11 @@ import adapter from '@sveltejs/adapter-static';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		adapter: adapter({ fallback: '404.html' }),
+		adapter: adapter({
+			fallback: '404.html',
+			pages: 'public',
+			assets: 'public'
+		}),
 		paths: {
 			base: process.argv.includes('dev') ? '' : process.env.BASE_PATH,
 		},
